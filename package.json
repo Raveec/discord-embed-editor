@@ -1,0 +1,103 @@
+{
+  "name": "discord-embed-editor",
+  "displayName": "Discord Embed Editor",
+  "description": "Visual editor to create, edit and convert Discord embeds between JSON, discord.js and discord.py.",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "publisher": "Raveec",
+  "license": "MIT",
+  "icon": "img/icon.png",
+  "categories": [
+    "Formatters",
+    "Visualization"
+  ],
+  "repository": {
+    "url": "https://github.com/Raveec/discord-embed-editor"
+  },
+  "activationEvents": [
+    "onCommand:discordEmbed.openEditor",
+    "onEditorContextMenu"
+  ],
+  "keywords": [
+    "discord",
+    "embed",
+    "discord.js",
+    "discord.py",
+    "formatter",
+    "editor"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "discordEmbed.openEditor",
+        "title": "Discord Embed: Open Visual Editor"
+      },
+      {
+        "command": "discordEmbed.openEditorFromSelection",
+        "title": "Discord Embed: Open from Selection"
+      },
+      {
+        "command": "discordEmbed.insertEmbed",
+        "title": "Discord Embed: Insert Template"
+      },
+      {
+        "command": "discordEmbed.copyAs",
+        "title": "Discord Embed: Copy as Format"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "discordEmbed.openEditorFromSelection",
+          "group": "navigation",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "discordEmbed.insertEmbed",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "discordEmbed.openEditorFromSelection",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorTextFocus && editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "Discord Embed Editor",
+      "properties": {
+        "discordEmbed.defaultFormat": {
+          "type": "string",
+          "enum": [
+            "json",
+            "discord.js",
+            "discord.py"
+          ],
+          "default": "json",
+          "description": "Default format for generated code"
+        },
+        "discordEmbed.showPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Discord-style preview"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "^16.0.0",
+    "typescript": "^4.9.0"
+  }
+}

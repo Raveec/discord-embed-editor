@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="template.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Discord Embed Editor</h1>
+        <div class="format-selector">
+            <span style="color:#b5bac1;font-size:14px;">Format:</span>
+            <select id="formatSelect">
+                <option value="json">JSON</option>
+                <option value="discord.js">Discord.js</option>
+                <option value="discord.py">discord.py</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <span>Editor</span>
+                <span class="char-count" id="totalChars">0/6000</span>
+            </div>
+            <div class="panel-content">
+                <div class="form-group">
+                    <label for="title">Title (max: 256)</label>
+                    <input type="text" id="title" maxlength="256">
+                    <div id="titleChars">0/256</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description (max: 4096)</label>
+                    <textarea id="description" maxlength="4096"></textarea>
+                    <div id="descChars">0/4096</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input type="text" id="url">
+                </div>
+
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-section">
+                        <div class="color-input-group">
+                            <input type="text" id="colorInput">
+                            <div class="color-display" id="colorDisplay"></div>
+                        </div>
+                        <div class="color-picker-container" id="colorPickerContainer">
+                            <div class="color-picker" id="colorPicker"></div>
+                            <div class="color-picker-indicator" id="colorPickerIndicator"></div>
+                        </div>
+                        <div class="preset-colors">
+                            <div class="preset-color" style="background:#5865f2" data-color="5865f2" data-name="Blurple"></div>
+                            <div class="preset-color" style="background:#57f287" data-color="57f287" data-name="Green"></div>
+                            <div class="preset-color" style="background:#fee75c" data-color="fee75c" data-name="Yellow"></div>
+                            <div class="preset-color" style="background:#ed4245" data-color="ed4245" data-name="Red"></div>
+                            <div class="preset-color" style="background:#eb459e" data-color="eb459e" data-name="Pink"></div>
+                            <div class="preset-color" style="background:#95a5a6" data-color="95a5a6" data-name="Gray"></div>
+                        </div>
+                        <div id="selectedColorName">Blurple</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Author</h3>
+                    <button id="toggleAuthorBtn" class="toggle-btn">+</button>
+                </div>
+                <div class="collapsible-section" id="authorSection" style="display:none;">
+                    <div class="input-group">
+                        <label for="authorName">Name</label>
+                        <input type="text" id="authorName" placeholder="Author name">
+                    </div>
+                    <div class="input-group">
+                        <label for="authorUrl">URL</label>
+                        <input type="text" id="authorUrl" placeholder="https://example.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="authorIcon">Icon URL</label>
+                        <input type="text" id="authorIcon" placeholder="https://example.com/icon.png">
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Footer</h3>
+                    <button id="toggleFooterBtn" class="toggle-btn">+</button>
+                </div>
+                <div class="collapsible-section" id="footerSection" style="display:none;">
+                    <div class="input-group">
+                        <label for="footerText">Text</label>
+                        <input type="text" id="footerText" placeholder="Footer text">
+                    </div>
+                    <div class="input-group">
+                        <label for="footerIcon">Icon URL</label>
+                        <input type="text" id="footerIcon" placeholder="https://example.com/icon.png">
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Thumbnail</h3>
+                    <button id="toggleThumbnailBtn" class="toggle-btn">+</button>
+                </div>
+                <div class="collapsible-section" id="thumbnailSection" style="display:none;">
+                    <div class="input-group">
+                        <label for="thumbnailUrl">URL</label>
+                        <input type="text" id="thumbnailUrl" placeholder="https://example.com/image.png">
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Image</h3>
+                    <button id="toggleImageBtn" class="toggle-btn">+</button>
+                </div>
+                <div class="collapsible-section" id="imageSection" style="display:none;">
+                    <div class="input-group">
+                        <label for="imageUrl">URL</label>
+                        <input type="text" id="imageUrl" placeholder="https://example.com/image.png">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="timestamp">Timestamp</label>
+                    <select id="timestamp">
+                        <option value="">None</option>
+                        <option value="now">Now</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="datetime-local" id="customTimestamp" style="display:none;">
+                </div>
+
+                <div class="fields-section">
+                    <div class="fields-header">
+                        <h3>Fields</h3>
+                        <button id="addFieldBtn" class="add-field-btn">+ Add Field</button>
+                    </div>
+                    <div id="fieldsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-panel">
+            <div class="panel-header">
+                <span>Preview & Code</span>
+            </div>
+            <div class="panel-content">
+                <div class="embed-preview" id="embedPreview">
+                    <div class="embed-author" id="previewAuthor" style="display:none;">
+                        <img id="authorIconPreview" class="author-icon" style="display:none;">
+                        <span id="authorNamePreview"></span>
+                    </div>
+                    <div class="embed-title" id="previewTitle"></div>
+                    <div class="embed-description" id="previewDescription"></div>
+                    <div class="embed-fields" id="previewFields"></div>
+                    <div class="embed-thumbnail" id="previewThumbnail" style="display:none;">
+                        <img id="thumbnailPreview">
+                    </div>
+                    <div class="embed-image" id="previewImage" style="display:none;">
+                        <img id="imagePreview">
+                    </div>
+                    <div class="embed-footer" id="previewFooter" style="display:none;">
+                        <img id="footerIconPreview" class="footer-icon" style="display:none;">
+                        <span id="footerTextPreview"></span>
+                        <span id="footerTimestamp" style="display:none;"></span>
+                    </div>
+                </div>
+
+                <div class="code-preview">
+                    <div class="code-header">
+                        <span id="codeFormat">JSON Code</span>
+                        <button id="copyBtn">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code id="codeOutput"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button id="cancelBtn">Cancel</button>
+        <button id="applyBtn">Apply</button>
+    </div>
+
+    <script src="template.js"></script>
+</body>
+</html>
