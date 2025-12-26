@@ -14,7 +14,8 @@
     "Visualization"
   ],
   "repository": {
-    "url": "https://github.com/Raveec/discord-embed-editor"
+    "url": "https://github.com/Raveec/discord-embed-editor",
+    "type": "git"
   },
   "activationEvents": [
     "onCommand:discordEmbed.openEditor",
